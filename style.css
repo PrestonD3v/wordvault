@@ -1,0 +1,637 @@
+/* =====================
+   CSS VARIABLES (THEME)
+   ===================== */
+:root {
+  --color-tone-1: #1a1a1b;
+  --color-tone-2: #787c7e;
+  --color-tone-3: #878a8c;
+  --color-tone-4: #d3d6da;
+  --color-tone-5: #edeff1;
+  --color-tone-6: #f6f7f8;
+  --color-tone-7: #ffffff;
+
+  --color-correct: #6aaa64;
+  --color-present: #c9b458;
+  --color-absent: #787c7e;
+  --color-lost: #d33a2c;
+
+  --color-correct-dark: #538d4e;
+  --color-present-dark: #b59f3b;
+  --color-absent-dark: #3a3a3c;
+  --color-lost-dark: #b3261e;
+
+  --header-height: 50px;
+  --tile-size: 62px;
+  --tile-gap: 5px;
+  --flip-duration: 250ms;
+  --board-width: 350px;
+  --board-height: 420px;
+
+  --key-height: 58px;
+  --key-bg: #d3d6da;
+  --key-text: #1a1a1b;
+  --key-evaluated-text: #ffffff;
+}
+
+/* DARK MODE */
+body.dark {
+  --color-tone-1: #ffffff;
+  --color-tone-2: #818384;
+  --color-tone-3: #565758;
+  --color-tone-4: #3a3a3c;
+  --color-tone-5: #272729;
+  --color-tone-6: #1a1a1b;
+  --color-tone-7: #121213;
+
+  --key-bg: #818384;
+  --key-text: #ffffff;
+
+  background-color: #121213;
+  color: #ffffff;
+}
+
+/* =====================
+   RESET & BASE
+   ===================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--color-tone-7);
+  color: var(--color-tone-1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =====================
+   TOAST
+   ===================== */
+.toast-container {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toaster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast {
+  background-color: var(--color-tone-1);
+  color: var(--color-tone-7);
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  animation: fade-in-out 1.8s ease forwards;
+}
+
+@keyframes fade-in-out {
+  0%   { opacity: 0; transform: translateY(-8px); }
+  15%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* =====================
+   GAME CONTAINER
+   ===================== */
+.game-container {
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =====================
+   HEADER / TOOLBAR
+   ===================== */
+.header {
+  border-bottom: 1px solid var(--color-tone-4);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  /* Break out of the 500px container to span full viewport width */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px;
+  position: relative;
+}
+
+/* Left side: hamburger */
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+/* Center: title absolutely centered */
+.title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Right side: icon buttons */
+.toolbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.toolbar-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-tone-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background-color 0.1s;
+}
+
+.toolbar-item:hover {
+  background-color: var(--color-tone-5);
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar-hamburger {
+  /* matches NYT hamburger placement */
+}
+
+
+/* =====================
+   MAIN GAME AREA
+   ===================== */
+.game {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 20px;
+}
+
+/* =====================
+   BOARD
+   ===================== */
+.board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.board {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: var(--tile-gap);
+  width: var(--board-width);
+  max-width: calc(100vw - 24px);
+  height: var(--board-height);
+}
+
+/* =====================
+   ROWS
+   ===================== */
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--tile-gap);
+}
+
+.row.shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+
+/* =====================
+   TILES
+   ===================== */
+.tile {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid var(--color-tone-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-tone-1);
+  user-select: none;
+  transition: border-color 0.1s;
+  position: relative;
+  cursor: default;
+}
+
+/* Tile has a letter typed */
+.tile[data-state="tbd"] {
+  border-color: var(--color-tone-3);
+  animation: pop 0.1s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Revealed tiles — flip animation */
+.tile[data-state="correct"],
+.tile[data-state="present"],
+.tile[data-state="absent"] {
+  border-color: transparent;
+  color: #ffffff;
+  animation: flip-in var(--flip-duration) ease forwards;
+}
+
+.tile[data-state="correct"] { background-color: var(--color-correct); }
+.tile[data-state="present"]  { background-color: var(--color-present); }
+.tile[data-state="absent"]   { background-color: var(--color-absent); }
+
+body.dark .tile[data-state="correct"] { background-color: var(--color-correct-dark); }
+body.dark .tile[data-state="present"]  { background-color: var(--color-present-dark); }
+body.dark .tile[data-state="absent"]   { background-color: var(--color-absent-dark); }
+
+@keyframes flip-in {
+  0%   { transform: rotateX(0deg); }
+  50%  { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+/* Win bounce */
+.tile.bounce {
+  animation: bounce 0.4s ease forwards;
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-20px); }
+  60%  { transform: translateY(-12px); }
+  80%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* =====================
+   KEYBOARD
+   ===================== */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 8px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.key {
+  height: var(--key-height);
+  min-width: 43px;
+  padding: 0 4px;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--key-bg);
+  color: var(--key-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  max-width: 43px;
+  user-select: none;
+  transition: background-color 0.1s;
+}
+
+.key:active {
+  filter: brightness(0.85);
+}
+
+.key-wide {
+  min-width: 65px;
+  max-width: 65px;
+  font-size: 0.75rem;
+}
+
+.key-spacer {
+  flex: 0.5;
+}
+
+/* Keyboard key states after guessing */
+.key[data-state="correct"] {
+  background-color: var(--color-correct);
+  color: var(--key-evaluated-text);
+}
+
+.key[data-state="present"] {
+  background-color: var(--color-present);
+  color: var(--key-evaluated-text);
+}
+
+.key[data-state="absent"] {
+  background-color: var(--color-absent);
+  color: var(--key-evaluated-text);
+}
+
+body.dark .key[data-state="correct"] { background-color: var(--color-correct-dark); }
+body.dark .key[data-state="present"]  { background-color: var(--color-present-dark); }
+body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dark); }
+
+/* =====================
+   MODAL
+   ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal {
+  background-color: var(--color-tone-7);
+  color: var(--color-tone-1);
+  border: 1px solid var(--color-tone-4);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 420px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-tone-4);
+  padding-bottom: 12px;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--color-tone-1);
+  padding: 4px;
+  line-height: 1;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.modal-body ul {
+  padding-left: 20px;
+}
+
+.modal-body hr {
+  border: none;
+  border-top: 1px solid var(--color-tone-4);
+}
+
+/* Example tiles inside modal */
+.example-row {
+  display: flex;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.example-row .tile {
+  width: 42px;
+  height: 42px;
+  font-size: 1.2rem;
+  border: 2px solid var(--color-tone-4);
+  color: var(--color-tone-1);
+}
+
+.example-row .tile.correct {
+  background-color: var(--color-correct);
+  border-color: transparent;
+  color: #fff;
+}
+
+.example-row .tile.present {
+  background-color: var(--color-present);
+  border-color: transparent;
+  color: #fff;
+}
+
+.example-row .tile.absent {
+  background-color: var(--color-absent);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* =====================
+   RESPONSIVE
+   ===================== */
+@media (max-width: 360px) {
+  :root {
+    --board-width: 300px;
+    --board-height: 360px;
+    --tile-size: 52px;
+  }
+
+  .key {
+    min-width: 36px;
+    max-width: 36px;
+    height: 50px;
+    font-size: 0.75rem;
+  }
+
+  .key-wide {
+    min-width: 54px;
+    max-width: 54px;
+  }
+}
+
+/* =====================
+   END GAME MODAL (NYT style)
+   ===================== */
+.end-modal {
+  background-color: #1a1a1b;
+  border: none;
+  border-radius: 8px;
+  padding: 40px 32px 36px;
+  text-align: center;
+  position: relative;
+  max-width: 380px;
+}
+
+.end-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #ffffff;
+  line-height: 1;
+  padding: 4px;
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.end-modal-close:hover {
+  opacity: 1;
+}
+
+/* End state icon boxes */
+.end-star-icon,
+.end-lost-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.end-star-icon {
+  background-color: var(--color-correct-dark);
+}
+
+.end-lost-icon {
+  background-color: var(--color-lost-dark);
+}
+
+/* "Congratulations!" — bold serif like NYT */
+.end-congrats {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+/* "You lost" for lose state */
+.end-gameover {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  margin-top: 16px;
+  line-height: 1.2;
+}
+
+.end-subtitle {
+  color: #d7dadc;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.end-word-reveal {
+  color: #818384;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-menu-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+}
+
+.toolbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+}

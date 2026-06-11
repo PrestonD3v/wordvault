@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordVault — Custom</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+  <div class="toast-container">
+    <div class="toaster" id="game-toaster"></div>
+  </div>
+
+  <div class="game-container">
+
+    <header class="header">
+      <section class="toolbar">
+
+        <!-- LEFT: copy link button -->
+        <div class="toolbar-left">
+          <button type="button" class="toolbar-item" id="copy-link-button" aria-label="Copy encoded game link">
+            <div class="icon-wrapper">
+              <svg aria-hidden="true" xmlns="http://w3.org" height="21" viewBox="2 2 28 28" width="21">
+                <path fill="var(--color-tone-1)" d="M19 2H7a2 2 0 00-2 2v14h2V4h12V2z" />
+                <path fill="var(--color-tone-1)" d="M23 6H11a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2zm0 18H11V8h12v16z" />
+              </svg>
+            </div>
+          </button>
+        </div>
+
+        <!-- CENTER: title -->
+        <h1 class="title">WordVault</h1>
+
+        <!-- RIGHT: icon buttons -->
+        <menu class="toolbar-menu">
+
+          <!-- Stats icon -->
+          <button type="button" class="toolbar-item" id="stats-button" aria-label="Statistics">
+            <div class="icon-wrapper">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="4 4 24 24" width="20">
+                <path fill="var(--color-tone-1)" d="M21.3332 14.6667V4H10.6665V12H2.6665V28H29.3332V14.6667H21.3332ZM13.3332 6.66667H18.6665V25.3333H13.3332V6.66667ZM5.33317 14.6667H10.6665V25.3333H5.33317V14.6667ZM26.6665 25.3333H21.3332V17.3333H26.6665V25.3333Z"/>
+              </svg>
+            </div>
+          </button>
+
+          <!-- Help icon -->
+          <button type="button" class="toolbar-item" id="help-button" aria-label="Help">
+            <div class="icon-wrapper">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="2 2 28 28" width="22">
+                <path fill="var(--color-tone-1)" d="M15 24H17.6667V21.3333H15V24ZM16.3333 2.66666C8.97333 2.66666 3 8.63999 3 16C3 23.36 8.97333 29.3333 16.3333 29.3333C23.6933 29.3333 29.6667 23.36 29.6667 16C29.6667 8.63999 23.6933 2.66666 16.3333 2.66666ZM16.3333 26.6667C10.4533 26.6667 5.66667 21.88 5.66667 16C5.66667 10.12 10.4533 5.33332 16.3333 5.33332C22.2133 5.33332 27 10.12 27 16C27 21.88 22.2133 26.6667 16.3333 26.6667ZM16.3333 7.99999C13.3867 7.99999 11 10.3867 11 13.3333H13.6667C13.6667 11.8667 14.8667 10.6667 16.3333 10.6667C17.8 10.6667 19 11.8667 19 13.3333C19 16 15 15.6667 15 20H17.6667C17.6667 17 21.6667 16.6667 21.6667 13.3333C21.6667 10.3867 19.28 7.99999 16.3333 7.99999Z"/>
+              </svg>
+            </div>
+          </button>
+
+          <!-- Settings icon -->
+          <button type="button" class="toolbar-item" id="settings-button" aria-label="Settings">
+            <div class="icon-wrapper">
+              <svg aria-hidden="true" xmlns="http://www.w3.org" height="21" viewBox="2 2 28 28" width="21">
+                <path fill="var(--color-tone-1)" d="M26.8666 17.3372C26.918 16.9086 26.9523 16.4629 26.9523 16C26.9523 15.5371 26.918 15.0914 26.8494 14.6628L29.7466 12.3999C30.0038 12.1942 30.0724 11.8171 29.9181 11.5256L27.1752 6.77693C27.0037 6.46836 26.6437 6.3655 26.3351 6.46836L22.9236 7.83982C22.2036 7.29123 21.4493 6.84551 20.6093 6.50264L20.095 2.86827C20.0436 2.52541 19.7521 2.2854 19.4093 2.2854H13.9234C13.5806 2.2854 13.3063 2.52541 13.2548 2.86827L12.7405 6.50264C11.9005 6.84551 11.1291 7.30838 10.4262 7.83982L7.01469 6.46836C6.70611 6.34835 6.3461 6.46836 6.17467 6.77693L3.43175 11.5256C3.26031 11.8342 3.32889 12.1942 3.60318 12.3999L6.50039 14.6628C6.43182 15.0914 6.38039 15.5543 6.38039 16C6.38039 16.4457 6.41467 16.9086 6.48325 17.3372L3.58603 19.6001C3.32889 19.8058 3.26031 20.183 3.4146 20.4744L6.15752 25.2231C6.32896 25.5317 6.68896 25.6345 6.99754 25.5317L10.4091 24.1602C11.1291 24.7088 11.8834 25.1545 12.7234 25.4974L13.2377 29.1317C13.3063 29.4746 13.5806 29.7146 13.9234 29.7146H19.4093C19.7521 29.7146 20.0436 29.4746 20.0779 29.1317L20.5921 25.4974C21.4322 25.1545 22.2036 24.6916 22.9065 24.1602L26.318 25.5317C26.6266 25.6517 26.9866 25.5317 27.158 25.2231L29.9009 20.4744C30.0724 20.1658 30.0038 19.8058 29.7295 19.6001L26.8666 17.3372ZM16.6663 21.143C13.8377 21.143 11.5234 18.8286 11.5234 16C11.5234 13.1714 13.8377 10.857 16.6663 10.857C19.495 10.857 21.8093 13.1714 21.8093 16C21.8093 18.8286 19.495 21.143 16.6663 21.143Z"/>
+              </svg>
+            </div>
+          </button>
+
+        </menu>
+      </section>
+    </header>
+
+    <!-- MAIN GAME -->
+    <main class="game" id="WordVault-app-game">
+
+      <!-- BOARD -->
+      <div class="board-container">
+        <div class="board" id="board">
+          <!-- 6 rows × N tiles, built by JS -->
+        </div>
+      </div>
+
+      <!-- KEYBOARD -->
+      <div class="keyboard" role="group" aria-label="Keyboard" id="keyboard">
+        <div class="keyboard-row">
+          <button class="key" data-key="q">q</button>
+          <button class="key" data-key="w">w</button>
+          <button class="key" data-key="e">e</button>
+          <button class="key" data-key="r">r</button>
+          <button class="key" data-key="t">t</button>
+          <button class="key" data-key="y">y</button>
+          <button class="key" data-key="u">u</button>
+          <button class="key" data-key="i">i</button>
+          <button class="key" data-key="o">o</button>
+          <button class="key" data-key="p">p</button>
+        </div>
+        <div class="keyboard-row">
+          <div class="key-spacer"></div>
+          <button class="key" data-key="a">a</button>
+          <button class="key" data-key="s">s</button>
+          <button class="key" data-key="d">d</button>
+          <button class="key" data-key="f">f</button>
+          <button class="key" data-key="g">g</button>
+          <button class="key" data-key="h">h</button>
+          <button class="key" data-key="j">j</button>
+          <button class="key" data-key="k">k</button>
+          <button class="key" data-key="l">l</button>
+          <div class="key-spacer"></div>
+        </div>
+        <div class="keyboard-row">
+          <button class="key key-wide" data-key="Enter">enter</button>
+          <button class="key" data-key="z">z</button>
+          <button class="key" data-key="x">x</button>
+          <button class="key" data-key="c">c</button>
+          <button class="key" data-key="v">v</button>
+          <button class="key" data-key="b">b</button>
+          <button class="key" data-key="n">n</button>
+          <button class="key" data-key="m">m</button>
+          <button class="key key-wide" data-key="Backspace">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="currentColor">
+              <path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- HOW TO PLAY MODAL -->
+  <div class="modal-overlay hidden" id="help-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>How to play</h2>
+        <button type="button" class="modal-close" id="help-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Guess the word in <strong><span id="max-guesses-text">6</span> tries</strong>.</p>
+        <ul>
+          <li>Each guess must use the same alphabet as the puzzle: English puzzles use English letters, Greek puzzles use Greek letters.</li>
+          <li>The color of the tiles will change to show how close your guess was.</li>
+        </ul>
+        <hr />
+        <div class="example-row">
+          <div class="tile correct">W</div><div class="tile">E</div><div class="tile">A</div><div class="tile">R</div><div class="tile">Y</div>
+        </div>
+        <p><strong>W</strong> is in the word and in the correct spot.</p>
+        <div class="example-row">
+          <div class="tile">P</div><div class="tile present">I</div><div class="tile">L</div><div class="tile">L</div><div class="tile">S</div>
+        </div>
+        <p><strong>I</strong> is in the word but in the wrong spot.</p>
+        <div class="example-row">
+          <div class="tile">V</div><div class="tile">A</div><div class="tile">G</div><div class="tile absent">U</div><div class="tile">E</div>
+        </div>
+        <p><strong>U</strong> is not in the word in any spot.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END GAME MODAL -->
+  <div class="modal-overlay hidden" id="end-modal">
+    <div class="modal end-modal">
+      <button type="button" class="modal-close end-modal-close" id="end-close" aria-label="Close result popup">✕</button>
+
+      <!-- WIN STATE -->
+      <div class="end-win-content" id="end-win-content">
+        <div class="end-star-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="white">
+            <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h2 class="end-congrats">Congratulations!</h2>
+        <p class="end-subtitle" id="end-message"></p>
+        <p class="end-word-reveal" id="end-word"></p>
+      </div>
+
+      <!-- LOSE STATE -->
+      <div class="end-lose-content hidden" id="end-lose-content">
+        <div class="end-lost-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="white">
+            <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29 1.41 1.41z"/>
+          </svg>
+        </div>
+        <h2 class="end-gameover">You lost</h2>
+        <p class="end-subtitle" id="end-lose-message"></p>
+        <p class="end-word-reveal" id="end-lose-word"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

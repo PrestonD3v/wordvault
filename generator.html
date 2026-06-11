@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordVault Link Generator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+      background: #121213;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1a1a1b;
+      border: 1px solid #3a3a3c;
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15rem;
+      text-align: center;
+    }
+
+    p.subtitle {
+      font-size: 0.9rem;
+      color: #818384;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #818384;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      background: #121213;
+      border: 2px solid #3a3a3c;
+      border-radius: 6px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"] {
+      letter-spacing: 0.14rem;
+      text-transform: uppercase;
+    }
+
+    input[type="number"] {
+      letter-spacing: 0.05rem;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #818384;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #565758;
+      line-height: 1.4;
+    }
+
+    button.generate-btn {
+      background: #538d4e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+      padding: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button.generate-btn:hover {
+      background: #6aaa64;
+    }
+
+    .result {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .result.visible {
+      display: flex;
+    }
+
+    .result label {
+      color: #6aaa64;
+    }
+
+    .link-box {
+      background: #121213;
+      border: 2px solid #538d4e;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #fff;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .summary-box {
+      color: #d7dadc;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    button.copy-btn {
+      background: #3a3a3c;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button.copy-btn:hover {
+      background: #565758;
+    }
+
+    button.copy-btn.copied {
+      background: #538d4e;
+    }
+
+    button.open_tab {
+      background: #3a3a3c;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button.open_tab:hover {
+      background: #565758;
+    }
+
+    button.open_tab:active {
+      background: #fcb500;
+    }
+
+    .error {
+      color: #e57373;
+      font-size: 0.85rem;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .error.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🔗 Link Generator</h1>
+    <p class="subtitle">
+      Type an English or Greek word and settings below to generate an encrypted WordVault link to share with friends.
+      They won't be able to see the word or settings in plain text in the URL.
+    </p>
+
+    <div class="field">
+      <label for="word-input">Your word</label>
+      <input
+        type="text"
+        id="word-input"
+        placeholder="CRANE / ΛΕΞΗ"
+        maxlength="20"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      />
+      <span class="hint">English or Greek letters only. Accents are removed automatically, so “λέξη” becomes “ΛΕΞΗ”. Do not mix English and Greek in the same word.</span>
+    </div>
+
+    <div class="field">
+      <label for="max-guesses-input">Max guesses</label>
+      <input
+        type="number"
+        id="max-guesses-input"
+        min="1"
+        max="20"
+        step="1"
+        value="6"
+      />
+      <span class="hint">Saved in the generated URL. More guesses create more rows.</span>
+    </div>
+
+    <p class="error" id="error-msg"></p>
+
+    <button class="generate-btn" onclick="generate()">Generate Link</button>
+
+    <div class="result" id="result">
+      <label>Your shareable link</label>
+      <div class="link-box" id="link-display"></div>
+      <div class="summary-box" id="settings-summary"></div>
+      <button class="copy-btn" id="copy-btn" onclick="copyLink()">Copy Link</button>
+      <button class="open_tab" id="open_tab" onclick="openLink()">Open Tab</button>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ MUST match the SECRET_KEY in game.js exactly!
+    const SECRET_KEY = "top-level-secret-WordVault-custom-key";
+
+    // ✏️ Set your game URL here. It is resolved relative to this generator page.
+    const BASE_URL = "index.html";
+
+    const MIN_WORD_LENGTH = 2;
+    const MAX_WORD_LENGTH = 20;
+    const MIN_GUESSES = 1;
+    const MAX_GUESSES_LIMIT = 20;
+    const DEFAULT_MAX_GUESSES = 6;
+
+    function xorBytes(bytes, key) {
+      const keyBytes = new TextEncoder().encode(key);
+      return bytes.map((byte, i) => byte ^ keyBytes[i % keyBytes.length]);
+    }
+
+    function encodeGameConfig(config) {
+      const word = normalizeWordInput(config.word);
+      const payload = `5|${word}|${config.maxGuesses}`;
+      const payloadBytes = new TextEncoder().encode(payload);
+      const encryptedBytes = xorBytes(payloadBytes, SECRET_KEY);
+
+      return toBase64UrlFromBytes(encryptedBytes);
+    }
+
+    function toBase64UrlFromBytes(bytes) {
+      let binary = "";
+      bytes.forEach((byte) => {
+        binary += String.fromCharCode(byte);
+      });
+
+      return btoa(binary)
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/g, "");
+    }
+
+    function generate() {
+      const errorEl = document.getElementById("error-msg");
+      const resultEl = document.getElementById("result");
+      const copyBtn = document.getElementById("copy-btn");
+
+      const rawWord = document.getElementById("word-input").value;
+      const word = normalizeWordInput(rawWord);
+      const maxGuesses = Number.parseInt(document.getElementById("max-guesses-input").value, 10);
+
+      errorEl.classList.remove("visible");
+      resultEl.classList.remove("visible");
+
+      if (!word) {
+        showError("Please enter a word.");
+        return;
+      }
+
+      if (!isValidWord(word)) {
+        showError("Use only English letters OR only Greek letters. No spaces, numbers, punctuation, or mixed alphabets.");
+        return;
+      }
+
+      if (word.length < MIN_WORD_LENGTH) {
+        showError(`Word must be at least ${MIN_WORD_LENGTH} letters.`);
+        return;
+      }
+
+      if (word.length > MAX_WORD_LENGTH) {
+        showError(`Word must be ${MAX_WORD_LENGTH} letters or fewer.`);
+        return;
+      }
+
+      if (Number.isNaN(maxGuesses) || maxGuesses < MIN_GUESSES || maxGuesses > MAX_GUESSES_LIMIT) {
+        showError(`Max guesses must be between ${MIN_GUESSES} and ${MAX_GUESSES_LIMIT}.`);
+        return;
+      }
+
+      const config = {
+        word,
+        wordLength: word.length,
+        maxGuesses
+      };
+
+      const hash = encodeGameConfig(config);
+      const url = new URL(BASE_URL, window.location.href);
+      url.hash = hash;
+
+      const language = isGreekWord(word) ? "Greek" : "English";
+
+      document.getElementById("link-display").textContent = url.href;
+      document.getElementById("settings-summary").textContent =
+        `${language} · ${word.length}-letter word · ${maxGuesses} ${maxGuesses === 1 ? "guess" : "guesses"}`;
+      resultEl.classList.add("visible");
+
+      copyBtn.textContent = "Copy Link";
+      copyBtn.classList.remove("copied");
+    }
+
+    function copyLink() {
+      const link = document.getElementById("link-display").textContent;
+      if (!link) {
+        showError("Generate a link first.");
+        return;
+      }
+
+      copyText(link).then(() => {
+        const btn = document.getElementById("copy-btn");
+        btn.textContent = "✓ Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "Copy Link";
+          btn.classList.remove("copied");
+        }, 2000);
+      }).catch(() => {
+        showError("Could not copy automatically. Select and copy the link manually.");
+      });
+    }
+
+    function openLink() {
+      const link = document.getElementById("link-display").textContent;
+      if (!link) {
+        showError("Generate a link first.");
+        return;
+      }
+      window.open(link, "_blank")
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+
+      return new Promise((resolve, reject) => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        textarea.style.top = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        try {
+          const copied = document.execCommand("copy");
+          document.body.removeChild(textarea);
+          copied ? resolve() : reject(new Error("Copy command failed"));
+        } catch (err) {
+          document.body.removeChild(textarea);
+          reject(err);
+        }
+      });
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById("error-msg");
+      errorEl.textContent = message;
+      errorEl.classList.add("visible");
+    }
+
+    function normalizeWordInput(value) {
+      return String(value || "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ς/g, "σ")
+        .toUpperCase();
+    }
+
+    function isLatinWord(word) {
+      return /^[A-Z]+$/.test(word);
+    }
+
+    function isGreekWord(word) {
+      return /^[\u0391-\u03A1\u03A3-\u03A9]+$/.test(word);
+    }
+
+    function isValidWord(word) {
+      return isLatinWord(word) || isGreekWord(word);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("word-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") generate();
+      });
+
+      document.getElementById("max-guesses-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") generate();
+      });
+    });
+  </script>
+
+</body>
+</html>
