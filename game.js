@@ -1,10 +1,12 @@
 const SECRET_KEY = "top-level-secret-WordVault-custom-key";
-const DEFAULT_SOLUTION = "ABCDE";
+const DEFAULT_SOLUTION = "INDEX";
+
 const DEFAULT_MAX_GUESSES = 6;
 const MIN_WORD_LENGTH = 2;
-const MAX_WORD_LENGTH = 20;
+const MAX_WORD_LENGTH = 10;
 const MIN_GUESSES = 1;
-const MAX_GUESSES_LIMIT = 20;
+const MAX_GUESSES_LIMIT = 9;
+
 const TILE_FLIP_DURATION = 500; // Change this to adjust the tile flip animation speed.
 const delay = 400; // ms between tile flips
 
