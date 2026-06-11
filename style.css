@@ -1,6 +1,3 @@
-/* =====================
-   CSS VARIABLES (THEME)
-   ===================== */
 :root {
   --color-tone-1: #1a1a1b;
   --color-tone-2: #787c7e;
@@ -33,7 +30,6 @@
   --key-evaluated-text: #ffffff;
 }
 
-/* DARK MODE */
 body.dark {
   --color-tone-1: #ffffff;
   --color-tone-2: #818384;
@@ -50,9 +46,6 @@ body.dark {
   color: #ffffff;
 }
 
-/* =====================
-   RESET & BASE
-   ===================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -73,9 +66,6 @@ body {
   display: none !important;
 }
 
-/* =====================
-   TOAST
-   ===================== */
 .toast-container {
   position: fixed;
   top: 10%;
@@ -113,9 +103,6 @@ body {
   100% { opacity: 0; }
 }
 
-/* =====================
-   GAME CONTAINER
-   ===================== */
 .game-container {
   width: 100%;
   max-width: 500px;
@@ -124,15 +111,11 @@ body {
   flex-direction: column;
 }
 
-/* =====================
-   HEADER / TOOLBAR
-   ===================== */
 .header {
   border-bottom: 1px solid var(--color-tone-4);
   height: var(--header-height);
   display: flex;
   align-items: center;
-  /* Break out of the 500px container to span full viewport width */
   width: 100vw;
   position: relative;
   left: 50%;
@@ -148,14 +131,12 @@ body {
   position: relative;
 }
 
-/* Left side: hamburger */
 .toolbar-left {
   display: flex;
   align-items: center;
   flex: 1;
 }
 
-/* Center: title absolutely centered */
 .title {
   position: absolute;
   left: 50%;
@@ -169,7 +150,6 @@ body {
   white-space: nowrap;
 }
 
-/* Right side: icon buttons */
 .toolbar-menu {
   display: flex;
   align-items: center;
@@ -203,13 +183,9 @@ body {
 }
 
 .toolbar-hamburger {
-  /* matches NYT hamburger placement */
+  
 }
 
-
-/* =====================
-   MAIN GAME AREA
-   ===================== */
 .game {
   flex: 1;
   display: flex;
@@ -219,9 +195,6 @@ body {
   padding: 10px 0 20px;
 }
 
-/* =====================
-   BOARD
-   ===================== */
 .board-container {
   display: flex;
   justify-content: center;
@@ -238,9 +211,6 @@ body {
   height: var(--board-height);
 }
 
-/* =====================
-   ROWS
-   ===================== */
 .row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -257,9 +227,6 @@ body {
   30%, 70% { transform: translateX(4px); }
 }
 
-/* =====================
-   TILES
-   ===================== */
 .tile {
   width: 100%;
   aspect-ratio: 1;
@@ -277,7 +244,6 @@ body {
   cursor: default;
 }
 
-/* Tile has a letter typed */
 .tile[data-state="tbd"] {
   border-color: var(--color-tone-3);
   animation: pop 0.1s ease;
@@ -289,7 +255,6 @@ body {
   100% { transform: scale(1); }
 }
 
-/* Revealed tiles — flip animation */
 .tile[data-state="correct"],
 .tile[data-state="present"],
 .tile[data-state="absent"] {
@@ -312,7 +277,6 @@ body.dark .tile[data-state="absent"]   { background-color: var(--color-absent-da
   100% { transform: rotateX(0deg); }
 }
 
-/* Win bounce */
 .tile.bounce {
   animation: bounce 0.4s ease forwards;
 }
@@ -325,9 +289,6 @@ body.dark .tile[data-state="absent"]   { background-color: var(--color-absent-da
   100% { transform: translateY(0); }
 }
 
-/* =====================
-   KEYBOARD
-   ===================== */
 .keyboard {
   display: flex;
   flex-direction: column;
@@ -379,7 +340,6 @@ body.dark .tile[data-state="absent"]   { background-color: var(--color-absent-da
   flex: 0.5;
 }
 
-/* Keyboard key states after guessing */
 .key[data-state="correct"] {
   background-color: var(--color-correct);
   color: var(--key-evaluated-text);
@@ -399,9 +359,6 @@ body.dark .key[data-state="correct"] { background-color: var(--color-correct-dar
 body.dark .key[data-state="present"]  { background-color: var(--color-present-dark); }
 body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dark); }
 
-/* =====================
-   MODAL
-   ===================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -471,7 +428,6 @@ body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dar
   border-top: 1px solid var(--color-tone-4);
 }
 
-/* Example tiles inside modal */
 .example-row {
   display: flex;
   gap: 4px;
@@ -504,9 +460,6 @@ body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dar
   color: #fff;
 }
 
-/* =====================
-   RESPONSIVE
-   ===================== */
 @media (max-width: 360px) {
   :root {
     --board-width: 300px;
@@ -527,9 +480,6 @@ body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dar
   }
 }
 
-/* =====================
-   END GAME MODAL (NYT style)
-   ===================== */
 .end-modal {
   background-color: #1a1a1b;
   border: none;
@@ -559,7 +509,6 @@ body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dar
   opacity: 1;
 }
 
-/* End state icon boxes */
 .end-star-icon,
 .end-lost-icon {
   width: 72px;
@@ -579,7 +528,6 @@ body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dar
   background-color: var(--color-lost-dark);
 }
 
-/* "Congratulations!" — bold serif like NYT */
 .end-congrats {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 1.7rem;
@@ -589,7 +537,6 @@ body.dark .key[data-state="absent"]   { background-color: var(--color-absent-dar
   line-height: 1.2;
 }
 
-/* "You lost" for lose state */
 .end-gameover {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 1.7rem;

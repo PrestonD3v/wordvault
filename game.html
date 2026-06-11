@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WordVault — Custom</title>
+  <title>WordVault | Custom Game</title>
+  <link rel="icon" type="image/x-icon" href="/logo.png">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dark">
-
   <div class="toast-container">
     <div class="toaster" id="game-toaster"></div>
   </div>
@@ -16,8 +16,6 @@
 
     <header class="header">
       <section class="toolbar">
-
-        <!-- LEFT: copy link button -->
         <div class="toolbar-left">
           <button type="button" class="toolbar-item" id="copy-link-button" aria-label="Copy encoded game link">
             <div class="icon-wrapper">
@@ -29,13 +27,10 @@
           </button>
         </div>
 
-        <!-- CENTER: title -->
         <h1 class="title">WordVault</h1>
 
-        <!-- RIGHT: icon buttons -->
         <menu class="toolbar-menu">
 
-          <!-- Stats icon -->
           <button type="button" class="toolbar-item" id="stats-button" aria-label="Statistics">
             <div class="icon-wrapper">
               <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="4 4 24 24" width="20">
@@ -44,7 +39,6 @@
             </div>
           </button>
 
-          <!-- Help icon -->
           <button type="button" class="toolbar-item" id="help-button" aria-label="Help">
             <div class="icon-wrapper">
               <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="2 2 28 28" width="22">
@@ -53,7 +47,6 @@
             </div>
           </button>
 
-          <!-- Settings icon -->
           <button type="button" class="toolbar-item" id="settings-button" aria-label="Settings">
             <div class="icon-wrapper">
               <svg aria-hidden="true" xmlns="http://www.w3.org" height="21" viewBox="2 2 28 28" width="21">
@@ -66,17 +59,13 @@
       </section>
     </header>
 
-    <!-- MAIN GAME -->
     <main class="game" id="WordVault-app-game">
 
-      <!-- BOARD -->
       <div class="board-container">
         <div class="board" id="board">
-          <!-- 6 rows × N tiles, built by JS -->
         </div>
       </div>
 
-      <!-- KEYBOARD -->
       <div class="keyboard" role="group" aria-label="Keyboard" id="keyboard">
         <div class="keyboard-row">
           <button class="key" data-key="q">q</button>
@@ -123,7 +112,6 @@
     </main>
   </div>
 
-  <!-- HOW TO PLAY MODAL -->
   <div class="modal-overlay hidden" id="help-modal">
     <div class="modal">
       <div class="modal-header">
@@ -153,12 +141,10 @@
     </div>
   </div>
 
-  <!-- END GAME MODAL -->
   <div class="modal-overlay hidden" id="end-modal">
     <div class="modal end-modal">
       <button type="button" class="modal-close end-modal-close" id="end-close" aria-label="Close result popup">✕</button>
 
-      <!-- WIN STATE -->
       <div class="end-win-content" id="end-win-content">
         <div class="end-star-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="white">
@@ -170,7 +156,6 @@
         <p class="end-word-reveal" id="end-word"></p>
       </div>
 
-      <!-- LOSE STATE -->
       <div class="end-lose-content hidden" id="end-lose-content">
         <div class="end-lost-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="white">

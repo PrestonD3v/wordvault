@@ -7,8 +7,8 @@ const MAX_WORD_LENGTH = 10;
 const MIN_GUESSES = 1;
 const MAX_GUESSES_LIMIT = 9;
 
-const TILE_FLIP_DURATION = 500; // Change this to adjust the tile flip animation speed.
-const delay = 400; // ms between tile flips
+const TILE_FLIP_DURATION = 500;
+const delay = 400;
 
 const ENGLISH_KEYBOARD = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -16,7 +16,6 @@ const ENGLISH_KEYBOARD = [
   ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Backspace"]
 ];
 
-// Modern Greek keyboard layout. Final sigma (ς) normalizes to Σ, so one sigma key is enough.
 const GREEK_KEYBOARD = [
   ["Ε", "Ρ", "Τ", "Υ", "Θ", "Ι", "Ο", "Π"],
   ["Α", "Σ", "Δ", "Φ", "Γ", "Η", "Ξ", "Κ", "Λ"],
@@ -44,8 +43,6 @@ function encodeGameConfig(config) {
   const word = normalizeWordInput(config.word || DEFAULT_SOLUTION);
   const maxGuesses = Number(config.maxGuesses) || DEFAULT_MAX_GUESSES;
 
-  // Compact v5 payload. Supports Unicode words like Greek.
-  // Format: 5|WORD|MAX_GUESSES
   const payload = `5|${word}|${maxGuesses}`;
   const payloadBytes = new TextEncoder().encode(payload);
   const encryptedBytes = xorBytes(payloadBytes, SECRET_KEY);
@@ -64,11 +61,10 @@ function decodeGameConfig(hash) {
     const compactPayload = parseCompactPayload(decrypted);
     if (compactPayload) return normalizeGameConfig(compactPayload);
 
-    // Backward compatibility: v2 URLs used encrypted JSON.
     const jsonPayload = JSON.parse(decrypted);
     return normalizeGameConfig(jsonPayload);
   } catch (e) {
-    // Backward compatibility: the oldest URLs were just the encrypted English word.
+    
     const oldWord = decodeLegacyWord(cleanHash);
     if (oldWord) {
       return normalizeGameConfig({
@@ -85,7 +81,6 @@ function decodeGameConfig(hash) {
 function parseCompactPayload(payload) {
   const parts = String(payload || "").split("|");
 
-  // v5 is the current short format: 5|WORD|MAX_GUESSES
   if (parts[0] === "5") {
     return {
       word: parts[1],
@@ -93,7 +88,6 @@ function parseCompactPayload(payload) {
     };
   }
 
-  // v4 was the previous short English-only format: 4|WORD|MAX_GUESSES
   if (parts[0] === "4") {
     return {
       word: parts[1],
@@ -101,7 +95,6 @@ function parseCompactPayload(payload) {
     };
   }
 
-  // v3 links also work, but the flip duration from the URL is now ignored.
   if (parts[0] === "3") {
     return {
       word: parts[1],
@@ -232,9 +225,6 @@ window.addEventListener("DOMContentLoaded", () => {
   attachModalListeners();
 });
 
-/* =====================
-   BUILD BOARD
-   ===================== */
 function buildBoard() {
   const boardEl = document.getElementById("board");
   boardEl.innerHTML = "";
@@ -276,9 +266,6 @@ function buildBoard() {
   boardEl.style.height = `${boardHeight}px`;
 }
 
-/* =====================
-   BUILD KEYBOARD
-   ===================== */
 function buildKeyboard() {
   const keyboard = document.getElementById("keyboard");
   keyboard.innerHTML = "";
@@ -334,9 +321,6 @@ function createKeySpacer() {
   return spacer;
 }
 
-/* =====================
-   KEYBOARD LISTENERS
-   ===================== */
 function attachKeyboardListeners() {
   document.addEventListener("keydown", (e) => {
     if (gameOver || inputLocked) return;
@@ -372,9 +356,6 @@ function attachKeyboardListeners() {
   });
 }
 
-/* =====================
-   GAME ACTIONS
-   ===================== */
 function addLetter(letter) {
   if (inputLocked || gameOver) return;
   if (currentRow >= MAX_GUESSES || currentCol >= WORD_LENGTH) return;
@@ -415,7 +396,7 @@ function submitGuess() {
 
   const guess = currentGuess.join("");
   const result = evaluateGuess(guess);
-  // Capture the row index before any later state changes.
+  
   const submittedRow = currentRow;
 
   revealRow(submittedRow, result, () => {
@@ -443,9 +424,6 @@ function submitGuess() {
   });
 }
 
-/* =====================
-   EVALUATE GUESS
-   ===================== */
 function evaluateGuess(guess) {
   const result = Array(WORD_LENGTH).fill("absent");
   const solutionArr = SOLUTION.split("");
@@ -473,9 +451,6 @@ function evaluateGuess(guess) {
   return result;
 }
 
-/* =====================
-   REVEAL ROW (flip animation)
-   ===================== */
 function revealRow(rowIndex, result, callback) {
   const tiles = board[rowIndex];
   if (!tiles) return;
@@ -554,7 +529,6 @@ function attachModalListeners() {
   const helpClose = document.getElementById("help-close");
   const endClose = document.getElementById("end-close");
 
-  // Help modal
   document.getElementById("help-button").addEventListener("click", () => {
     helpModal.classList.remove("hidden");
   });
@@ -569,7 +543,6 @@ function attachModalListeners() {
     if (e.target === e.currentTarget) e.currentTarget.classList.add("hidden");
   });
 
-  // Stats button
   document.getElementById("stats-button").addEventListener("click", () => {
     if (gameOver) {
       endModal.classList.remove("hidden");
@@ -578,12 +551,10 @@ function attachModalListeners() {
     }
   });
 
-  // Settings button
   document.getElementById("settings-button").addEventListener("click", () => {
     showToast("Settings are saved in generated links.");
   });
 
-  // Copy link button — copies the canonical encrypted game URL, including settings.
   document.getElementById("copy-link-button").addEventListener("click", () => {
     copyText(buildShareUrl()).then(() => {
       showToast("Link copied!");
@@ -592,7 +563,6 @@ function attachModalListeners() {
     });
   });
 
-  // End modal close. Keep this separate from gameplay input locks.
   endClose.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -644,9 +614,6 @@ function updateStaticText() {
   if (guessesText) guessesText.textContent = MAX_GUESSES;
 }
 
-/* =====================
-   HELPERS
-   ===================== */
 function normalizeWordInput(value) {
   return String(value || "")
     .trim()
