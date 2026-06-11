@@ -202,8 +202,7 @@
   <div class="card">
     <h1>🔗 Link Generator</h1>
     <p class="subtitle">
-      Type an English or Greek word and settings below to generate an encrypted WordVault link to share with friends.
-      They won't be able to see the word or settings in plain text in the URL.
+      Enter an English or Greek word and add a few guesses below to generate a secure WordVault link. The word and settings are encrypted, so they won't be visible in the URL.
     </p>
 
     <div class="field">
@@ -211,13 +210,13 @@
       <input
         type="text"
         id="word-input"
-        placeholder="CRANE / ΛΕΞΗ"
-        maxlength="20"
+        placeholder="WORD / ΛΕΞΗ"
+        maxlength="10"
         autocomplete="off"
         autocorrect="off"
-        spellcheck="false"
+        spellcheck="false" 
       />
-      <span class="hint">English or Greek letters only. Accents are removed automatically, so “λέξη” becomes “ΛΕΞΗ”. Do not mix English and Greek in the same word.</span>
+      <span class="hint">English or Greek letters only. Do not mix both languages in the same word.</span>
     </div>
 
     <div class="field">
@@ -225,6 +224,7 @@
       <input
         type="number"
         id="max-guesses-input"
+        placeholder="6"
         min="1"
         max="20"
         step="1"
